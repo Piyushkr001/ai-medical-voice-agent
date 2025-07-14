@@ -6,39 +6,45 @@ import { Button } from "@/components/ui/button";
 import { UserButton, useUser } from "@clerk/nextjs";
 import { ModeToggle } from "./ThemeSwitcher";
 
-const Navbar = () => {
+export default function Navbar() {
   const { isSignedIn } = useUser();
 
   return (
-    <nav className="flex w-full items-center justify-between shadow border-t border-b border-neutral-200 px-4 py-4 dark:border-neutral-800 rounded-2xl">
-      <div className="flex items-center gap-2">
-        <Link href="/">
+    <nav className="sticky top-0 z-50 w-full border-b border-neutral-200 dark:border-neutral-800 bg-white/80 dark:bg-gray-900/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:supports-[backdrop-filter]:bg-gray-900/60 px-4 py-3 rounded-3xl">
+      <div className="max-w-7xl mx-auto flex items-center justify-between">
+        {/* Logo */}
+        <Link href="/" className="flex items-center gap-2">
           <Image
             src="/Images/Logo/logo.svg"
             alt="Logo"
-            width={150}
-            height={150}
+            width={140}
+            height={50}
+            className="object-contain"
           />
         </Link>
-      </div>
 
-      {isSignedIn ? (
-        <div className="flex items-center gap-5">
-          <ModeToggle/>
-          <UserButton afterSignOutUrl="/login" />
-          <Link href="/dashboard">
-          <Button>Dashboard</Button>
-          </Link>
+        {/* Right Side */}
+        <div className="flex items-center gap-4">
+          <ModeToggle />
+
+          {isSignedIn ? (
+            <>
+              <UserButton afterSignOutUrl="/sign-in" />
+              <Link href="/dashboard">
+                <Button variant="default" className="hidden sm:block">
+                  Dashboard
+                </Button>
+              </Link>
+            </>
+          ) : (
+            <Link href="/sign-in">
+              <Button className="bg-black text-white dark:bg-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 transition">
+                Login
+              </Button>
+            </Link>
+          )}
         </div>
-      ) : (
-        <Link href="/sign-in">
-          <Button className="w-24 transform rounded-lg bg-black px-6 py-2 font-medium text-white transition-all duration-300 hover:-translate-y-0.5 hover:bg-gray-800 md:w-32 dark:bg-white dark:text-black dark:hover:bg-gray-200">
-            Login
-          </Button>
-        </Link>
-      )}
+      </div>
     </nav>
   );
-};
-
-export default Navbar;
+}
