@@ -5,7 +5,10 @@ import { ClerkProvider } from "@clerk/nextjs";
 import Provider from "./provider";
 import { Toaster } from "@/components/ui/sonner";
 
-const ubuntu = Ubuntu_Sans({ subsets: ["latin"] });
+const ubuntu = Ubuntu_Sans({
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "700"],
+});
 
 export const metadata: Metadata = {
   title: "MediNova AI",
